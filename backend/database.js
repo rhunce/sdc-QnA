@@ -136,7 +136,7 @@ const saveAnswerInPAQAAWPCollection = (productId, updatedDocument) => {
   return productsAndQuestionsAndAnswersWithPhotos.updateOne({ product_id: `${productId}` }, updatedDocument).exec();
 };
 
-const findProductForQuestion = (productId) => {
+const findProductFromProductId = (productId) => {
   return productsAndQuestionsAndAnswersWithPhotos.find({product_id: `${productId}`});
 };
 
@@ -144,11 +144,7 @@ const markQuestionHelpfulInQuestionsCollection = (questionId) => {
   return questions.findOneAndUpdate({id: parseInt(questionId)}, { $inc: { helpful: 1 } }, { useFindAndModify: false }).exec();
 };
 
-const markQuestionHelpfulInPAQAAWPCollection = (productId, updatedDocument) => {
-  return productsAndQuestionsAndAnswersWithPhotos.updateOne({ product_id: `${productId}` }, updatedDocument).exec();
-};
-
-const reportQuestionInPAQAAWPCollection = (productId, updatedDocument) => {
+const updateDocumentInPAQAAWPCollection = (productId, updatedDocument) => {
   return productsAndQuestionsAndAnswersWithPhotos.updateOne({ product_id: `${productId}` }, updatedDocument).exec();
 };
 
@@ -164,12 +160,16 @@ const findQuestionInQAAWPCollection = (questionId) => {
   return questionsAndAnswersWithPhotos.find({question: `${questionId}`});
 };
 
-const markAnswerHelpfulInQAAWPCollection = (questionId, document) => {
-  return questionsAndAnswersWithPhotos.updateOne({ question: `${questionId}` }, document).exec();
-};
-
 const findProductIDForQuestion = (questionId) => {
   return questions.find({id: questionId});
+};
+
+const reportAnswerInAnswersCollection = (answerId) => {
+  return answers.findOneAndUpdate({ id: answerId }, { reported: 1 }, { useFindAndModify: false });
+};
+
+const updateDocumentInQAAWPCollection = (questionId, document) => {
+  return questionsAndAnswersWithPhotos.updateOne({ question: `${questionId}` }, document).exec();
 };
 
 module.exports = {
@@ -183,15 +183,15 @@ module.exports = {
   saveAnswerInAnswersCollection,
   getQuestionData,
   saveAnswerInPAQAAWPCollection,
-  findProductForQuestion,
+  findProductFromProductId,
   submitQuestiontoQuestionsCollection,
   markQuestionHelpfulInQuestionsCollection,
-  markQuestionHelpfulInPAQAAWPCollection,
   reportQuestion,
-  reportQuestionInPAQAAWPCollection,
+  updateDocumentInPAQAAWPCollection,
   markAnswerAsHelpfulInAnswersCollection,
   findAnswerInAnswersCollection,
   findQuestionInQAAWPCollection,
-  markAnswerHelpfulInQAAWPCollection,
-  findProductIDForQuestion
+  findProductIDForQuestion,
+  reportAnswerInAnswersCollection,
+  updateDocumentInQAAWPCollection
 };
