@@ -101,6 +101,10 @@ const getQuestionData = (questionId) => {
   return questions.find({id: questionId}).exec();
 };
 
+const reportQuestion = (questionId) => {
+  return questions.updateOne({ id: parseInt(questionId)}, {reported: 1}).exec();
+};
+
 const saveAnswerInQAAWPCollection = (questionId, answerBody, answererName, answererEmail, answerPhotos, answerId, dateWritten) => {
   let newDocument = {
     question_id: questionId,
@@ -144,6 +148,30 @@ const markQuestionHelpfulInPAQAAWPCollection = (productId, updatedDocument) => {
   return productsAndQuestionsAndAnswersWithPhotos.updateOne({ product_id: `${productId}` }, updatedDocument).exec();
 };
 
+const reportQuestionInPAQAAWPCollection = (productId, updatedDocument) => {
+  return productsAndQuestionsAndAnswersWithPhotos.updateOne({ product_id: `${productId}` }, updatedDocument).exec();
+};
+
+const markAnswerAsHelpfulInAnswersCollection = (answerId) => {
+  return answers.updateOne({ id: parseInt(answerId) }, { $inc: { helpful: 1 } }).exec();
+};
+
+const findAnswerInAnswersCollection = (answerId) => {
+  return answers.find({id: parseInt(answerId)});
+};
+
+const findQuestionInQAAWPCollection = (questionId) => {
+  return questionsAndAnswersWithPhotos.find({question: `${questionId}`});
+};
+
+const markAnswerHelpfulInQAAWPCollection = (questionId, document) => {
+  return questionsAndAnswersWithPhotos.updateOne({ question: `${questionId}` }, document).exec();
+};
+
+const findProductIDForQuestion = (questionId) => {
+  return questions.find({id: questionId});
+};
+
 module.exports = {
   getQuestionsForProduct,
   getAnswersForQuestion,
@@ -158,5 +186,12 @@ module.exports = {
   findProductForQuestion,
   submitQuestiontoQuestionsCollection,
   markQuestionHelpfulInQuestionsCollection,
-  markQuestionHelpfulInPAQAAWPCollection
+  markQuestionHelpfulInPAQAAWPCollection,
+  reportQuestion,
+  reportQuestionInPAQAAWPCollection,
+  markAnswerAsHelpfulInAnswersCollection,
+  findAnswerInAnswersCollection,
+  findQuestionInQAAWPCollection,
+  markAnswerHelpfulInQAAWPCollection,
+  findProductIDForQuestion
 };
