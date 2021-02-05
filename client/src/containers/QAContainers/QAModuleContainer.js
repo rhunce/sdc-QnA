@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import QuestionModule2 from "../../components/QuestionsAnswers/QuestionModulev2.jsx"
+import QuestionModule2 from '../../components/QuestionsAnswers/QuestionModulev2.jsx';
 
 const mapStateToProps = (state) => ({
   currentProductId: state.currentProductId,

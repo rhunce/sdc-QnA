@@ -39,6 +39,18 @@ let questionsSchema = mongoose.Schema({
 });
 let questions = mongoose.model('question', questionsSchema);
 
+let answerCountSchema = mongoose.Schema({
+  id: Number,
+  answer_count: Number
+});
+let answerCounts = mongoose.model('answerCount', answerCountSchema);
+
+let questionCountSchema = mongoose.Schema({
+  id: Number,
+  question_count: Number
+});
+let questionCounts = mongoose.model('questionCount', questionCountSchema);
+
 // ESTABLISHING A CONNECTION
 const connection = mongoose.connection;
 connection.on('error', console.error.bind(console, 'connection error:'));
@@ -54,10 +66,6 @@ const getQuestionsForProduct = (product, page, count) => {
 
 const getAnswersForQuestion = (question, page, count) => {
   return questionsAndAnswersWithPhotos.find({question: `${question}`}).exec();
-};
-
-const getLastQuestionNumber = () => {
-  return questionsAndAnswersWithPhotos.countDocuments().exec();
 };
 
 const submitQuestiontoPAQAAWPCollection = (productId, questionBody, questionerName, questionerEmail, questionId) => {
@@ -91,10 +99,6 @@ const submitQuestiontoQuestionsCollection = (productId, questionBody, dateWritte
     helpful: 0
   };
   return questions.create(newDocument);
-};
-
-const getLastAnswerNumber = () => {
-  return answers.countDocuments().exec();
 };
 
 const getQuestionData = (questionId) => {
@@ -172,6 +176,14 @@ const updateDocumentInQAAWPCollection = (questionId, document) => {
   return questionsAndAnswersWithPhotos.updateOne({ question: `${questionId}` }, document).exec();
 };
 
+const getAndUpdateAnswerCount = () => {
+ return answerCounts.findOneAndUpdate({ id: 1 }, { $inc: { answer_count: 1 } }, { useFindAndModify: false }).exec();
+};
+
+const getLastQuestionNumber = () => {
+  return questionCounts.findOneAndUpdate({ id: 1 }, { $inc: { question_count: 1 } }, { useFindAndModify: false }).exec();
+};
+
 module.exports = {
   getQuestionsForProduct,
   getAnswersForQuestion,
@@ -179,7 +191,6 @@ module.exports = {
   submitQuestiontoPAQAAWPCollection,
   submitQuestiontoQAAWPCollection,
   saveAnswerInQAAWPCollection,
-  getLastAnswerNumber,
   saveAnswerInAnswersCollection,
   getQuestionData,
   saveAnswerInPAQAAWPCollection,
@@ -193,5 +204,7 @@ module.exports = {
   findQuestionInQAAWPCollection,
   findProductIDForQuestion,
   reportAnswerInAnswersCollection,
-  updateDocumentInQAAWPCollection
+  updateDocumentInQAAWPCollection,
+  getAndUpdateAnswerCount,
+  getLastQuestionNumber
 };
