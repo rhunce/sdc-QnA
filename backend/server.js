@@ -51,7 +51,8 @@ app.post('/qa/questions', (req, res) => {
       const question_body = req.body.body;
       const questioner_name = req.body.name;
       const questioner_email = req.body.email;
-      const question_id = parseInt(lastQuestion + 1);
+      const question_id = lastQuestion.question_count;
+      console.log('question_id: ', question_id);
       const date_written = JSON.stringify(new Date()).slice(1, 11);
       // Submits question to PAQAAWP collection
       let questionSubmissionToPAQAAWPCollection = db.submitQuestiontoPAQAAWPCollection(product_id, question_body, questioner_name, questioner_email, question_id);
@@ -76,14 +77,13 @@ app.post('/qa/questions', (req, res) => {
 // Posts an answer to a question
 app.post('/qa/questions/:question_id/answers', (req, res) => {
   const question_id = req.params.question_id;
-  let lastAnswer = db.getLastAnswerNumber();
+  let lastAnswer = db.getAndUpdateAnswerCount();
   let questionData = db.getQuestionData(question_id);
   Promise.all([lastAnswer, questionData])
-    .then((values) => {
+  .then((values) => {
       // answer info, along with its corresponding question and the question's corresponding product
-      const answer_id = values[0] + 1;
+      const answer_id = values[0].answer_count;
       const product_id = values[1][0].product_id;
-      const question_id = req.params.question_id;
       const answer_body = req.body.body;
       const answerer_name = req.body.name;
       const answerer_email = req.body.email;
@@ -157,7 +157,7 @@ app.put('/qa/questions/:question_id/helpful', (req, res) => {
             }
           }
           // updated document in PAQAAWP Collection
-          let questionMarkedHelpfulInPAQAAWPCollection = db.markQuestionHelpfulInPAQAAWPCollection(product_id, document);
+          let questionMarkedHelpfulInPAQAAWPCollection = db.updateDocumentInPAQAAWPCollection(product_id, document);
           // marks question helpful in Questions Collection
           let questionMarkedHelpfulInQuestionsCollection = db.markQuestionHelpfulInQuestionsCollection(question_id);
           // Let's client know when above accomplished
