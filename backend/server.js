@@ -7,24 +7,29 @@ let app = express();
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(express.static(path.join(__dirname, '../client/dist/index.html')));
+app.use(express.static(path.join(__dirname, '../client/dist')));
 
 // ROUTES
 // Gets questions for a given product (also has answers and answer photos embedded)
 app.get('/qa/questions', (req, res) => {
-  const product_id = req.query.product_id;
-  const page = req.query.page; // Don't know what this is for and how it's to be used
-  const count = req.query.count;
-  // Get all the questions for the given product and formats it how the client needs it before sending to client.
-  db.getQuestionsForProduct(product_id, page, count)
-    .then((productQuestions) => {
-      let reformattedproductQuestions = utils.formatObject(productQuestions[0], count);
-      res.status(200);
-      res.send(reformattedproductQuestions);
-    })
-    .catch((err) => {
-      console.error(err);
-    });
+  if (Object.keys(req.query).length > 0) {
+    const product_id = req.query.product_id;
+    const page = req.query.page; // Don't know what this is for and how it's to be used
+    const count = req.query.count;
+    // Get all the questions for the given product and formats it how the client needs it before sending to client.
+    db.getQuestionsForProduct(product_id, page, count)
+      .then((productQuestions) => {
+        let reformattedproductQuestions = utils.formatObject(productQuestions[0], count);
+        res.status(200);
+        console.log('reformattedproductQuestions: ', reformattedproductQuestions);
+        res.send(reformattedproductQuestions);
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+
+  }
+
 });
 
 // Get all the answers for a given question and sends to client.
@@ -52,7 +57,6 @@ app.post('/qa/questions', (req, res) => {
       const questioner_name = req.body.name;
       const questioner_email = req.body.email;
       const question_id = lastQuestion.question_count;
-      console.log('question_id: ', question_id);
       const date_written = JSON.stringify(new Date()).slice(1, 11);
       // Submits question to PAQAAWP collection
       let questionSubmissionToPAQAAWPCollection = db.submitQuestiontoPAQAAWPCollection(product_id, question_body, questioner_name, questioner_email, question_id);

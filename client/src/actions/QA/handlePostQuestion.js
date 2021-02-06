@@ -1,7 +1,9 @@
-import searchAPI from '../../lib/searchEngine.js';
+// import searchAPI from '../../lib/searchEngine.js';
+import axios from 'axios';
 
 const handlePostQuestion = (data) => {
-  return searchAPI.post('qa/questions', data)
+  // return searchAPI.post('qa/questions', data)
+  return axios.post('qa/questions', data)
     .then((data) => {
       console.log('Question submitted', data);
     })

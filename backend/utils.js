@@ -8,7 +8,7 @@ const formatObject = (objectToReformat, resultsCount) => {
   let currentResults = objectToReformat.results.slice(0, resultsCount);
   let reformattedResults = [];
   for (let i = 0; i < currentResults.length; i++) {
-    console.log(`${i}`, currentResults[i]);
+    // console.log(`${i}`, currentResults[i]);s
     let currentQuestion = currentResults[i];
     formattedAnswers = {};
     for (let j = 0; j < currentResults[i].answers.length; j++) {

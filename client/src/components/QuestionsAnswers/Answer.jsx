@@ -1,15 +1,13 @@
-import React, {useState} from "react";
-import handleHelpfulAnswer from "../../actions/QA/handleHelpfulAnswer.js";
-import handleReportAnswer from "../../actions/QA/handleReportAnswer.js";
+import React, {useState} from 'react';
+import handleHelpfulAnswer from '../../actions/QA/handleHelpfulAnswer.js';
+import handleReportAnswer from '../../actions/QA/handleReportAnswer.js';
 import { Modal } from '@material-ui/core';
 import Fade from '@material-ui/core/Fade';
 import Image from './Image.jsx';
 import InnerImageZoom from 'react-inner-image-zoom';
-
-
+import { v4 as uuidv4 } from 'uuid';
 
 const Answer = ({answer, handleQuant, fullLength}) => {
-
 
   const [answerHelpful, setAnswerHelpful] = useState({helpfulness: answer[1].helpfulness, helpfulStatus: false});
   const [answerReported, setAnswerReported] = useState(false);
@@ -17,21 +15,21 @@ const Answer = ({answer, handleQuant, fullLength}) => {
   const [openI, setOpenI] = useState(false);
 
   var date = new Date(answer[1].date);
-  var dateString = date.toLocaleDateString({}, {timeZone:"UTC",month:"long", day:"numeric", year:"numeric"})
+  var dateString = date.toLocaleDateString({}, {timeZone: 'UTC', month: 'long', day: 'numeric', year: 'numeric'});
 
   let addBold = '';
-  if (answer[1].answerer_name === "Seller") {
-    addBold = 'addBold'
+  if (answer[1].answerer_name === 'Seller') {
+    addBold = 'addBold';
   }
 
   let photos = answer[1].photos;
 
 
-  let reportStatus = "Report";
-  let reportClass = "reportLink";
-  if (answerReported === true){
-    reportStatus = "Reported";
-    reportClass = "";
+  let reportStatus = 'Report';
+  let reportClass = 'reportLink';
+  if (answerReported === true) {
+    reportStatus = 'Reported';
+    reportClass = '';
 
   }
 
@@ -50,7 +48,7 @@ const Answer = ({answer, handleQuant, fullLength}) => {
       <br/>
       <span className="answerPhotosContainer">
       {photos.map((photo) => (
-        <img src={photo} className="answerImage" onClick={handleOpen}></img>
+        <img key={uuidv4()} src={photo} className="answerImage" onClick={handleOpen}></img>
       ))}
       </span>
       <br/>
@@ -58,15 +56,19 @@ const Answer = ({answer, handleQuant, fullLength}) => {
       <span className="answerInfo">By <span className={addBold}>{answer[1].answerer_name}</span>, {dateString}</span>
       <span className="divider">|</span>
       <span>Helpful?&nbsp;</span>
-      <span onClick={() => {if (answerHelpful.helpfulStatus === false) {
-        setAnswerHelpful({helpfulness: answerHelpful.helpfulness + 1, helpfulStatus: true}); handleHelpfulAnswer(answer[0])}}} className="yesHelpfulA">Yes</span>
+      <span onClick={() => {
+ if (answerHelpful.helpfulStatus === false) {
+        setAnswerHelpful({helpfulness: answerHelpful.helpfulness + 1, helpfulStatus: true}); handleHelpfulAnswer(answer[0]);
+}
+}} className="yesHelpfulA">Yes</span>
       <span>&nbsp;({answerHelpful.helpfulness})</span>
       <span className="divider">|</span>
-      <span className={reportClass}  onClick={() => {
+      <span className={reportClass} onClick={() => {
         if (answerReported === false) {
           setAnswerReported(true);
-          handleReportAnswer(answer[0])
-          }}}>{reportStatus}</span>
+          handleReportAnswer(answer[0]);
+          }
+}}>{reportStatus}</span>
       </span>
       <Modal open={openI} onClose={handleClose} onClick={handleClose}>
         <Fade in={openI}>
@@ -76,7 +78,7 @@ const Answer = ({answer, handleQuant, fullLength}) => {
           </Fade>
       </Modal>
     </div>
-  )
+  );
 };
 
 export default Answer;

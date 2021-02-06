@@ -10,6 +10,7 @@ import { setRatings } from '../RatingsReviews/setRatings.js';
 import setQuestionList from '../QA/setQuestionList';
 import changeQuestionList from '../QA/questionList.js';
 import getRelatedItemIds from '../relatedItems/getRelatedItemIds.js';
+import axios from 'axios';
 // import addRelatedItems from '../relatedItems/addRelatedItems.js';
 
 const setSelectedProduct = (product_id) => {
@@ -32,9 +33,12 @@ const setSelectedProduct = (product_id) => {
         dispatch(setSelectedStyle(data.results[0]));
       })
       .then(() => {
-        return searchAPI.get(`qa/questions`, { product_id, count: 100 });
+        // return searchAPI.get('qa/questions', { product_id, count: 100 });
+        return axios.get('qa/questions', { params: { product_id, count: 100 }});
+        // THERE ARE SOME ISSUES WITH THIS ^^^
       })
       .then(({data}) => {
+        console.log('data: ', data);
         dispatch(changeQuestionList(data.results));
       })
       .catch((err) => {
