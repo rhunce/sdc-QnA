@@ -1,14 +1,14 @@
-import React from "react";
-import Question from "./Question.jsx";
+import React from 'react';
+import Question from './Question.jsx';
 import {CSSTransitionGroup} from 'react-transition-group';
 
 const QuestionList = ({ questions, quantity, productName}) => {
 
-  let renderedQuestions  = [];
+  let renderedQuestions = [];
 
-    for (var i =0; i < quantity; i++) {
+    for (var i = 0; i < quantity; i++) {
       if (questions[i]) {
-        renderedQuestions.push(questions[i])
+        renderedQuestions.push(questions[i]);
       }
   };
 
@@ -25,7 +25,7 @@ const QuestionList = ({ questions, quantity, productName}) => {
 
         </CSSTransitionGroup>
       </div>
-    )
+    );
 };
 
 export default QuestionList;

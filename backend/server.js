@@ -21,7 +21,6 @@ app.get('/qa/questions', (req, res) => {
       .then((productQuestions) => {
         let reformattedproductQuestions = utils.formatObject(productQuestions[0], count);
         res.status(200);
-        console.log('reformattedproductQuestions: ', reformattedproductQuestions);
         res.send(reformattedproductQuestions);
       })
       .catch((err) => {
