@@ -7,8 +7,10 @@ import handleHelpfulQuestion from '../../actions/QA/handleHelpfulQuestion.js';
 
 
 const Question = ({ question, productName }) => {
-
+  console.log('question: ', question);
+  console.log('question.answers: ', question.answers);
   let answers = Object.entries(question.answers);
+  console.log('answers: ', answers);
 
   const [answersQuantity, setAQuant] = useState(2);
   const [openA, setOpenA] = useState(false);

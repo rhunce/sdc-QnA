@@ -38,7 +38,6 @@ const setSelectedProduct = (product_id) => {
         // THERE ARE SOME ISSUES WITH THIS ^^^
       })
       .then(({data}) => {
-        console.log('data: ', data);
         dispatch(changeQuestionList(data.results));
       })
       .catch((err) => {

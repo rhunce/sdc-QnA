@@ -48,7 +48,7 @@ const Answer = ({answer, handleQuant, fullLength}) => {
       <br/>
       <span className="answerPhotosContainer">
       {photos.map((photo) => (
-        <img key={uuidv4()} src={photo} className="answerImage" onClick={handleOpen}></img>
+        <img key={uuidv4()} src={photo.url} className="answerImage" onClick={handleOpen}></img>
       ))}
       </span>
       <br/>

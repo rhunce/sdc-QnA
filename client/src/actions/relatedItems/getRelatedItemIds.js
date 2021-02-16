@@ -7,7 +7,7 @@ import addTimeSaverList from './addTimeSaverList.js';
 
 
 const getRelatedItemIds = ( productId, updatedNeedArr, wholeData ) => {
-  console.log('productId,:', productId);
+  // console.log('productId,:', productId);
 
   return (dispatch) => {
 
