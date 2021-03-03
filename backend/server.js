@@ -26,9 +26,7 @@ app.get('/qa/questions', (req, res) => {
       .catch((err) => {
         console.error(err);
       });
-
   }
-
 });
 
 // Get all the answers for a given question and sends to client.
@@ -138,7 +136,6 @@ app.post('/qa/questions/:question_id/answers', (req, res) => {
     .catch((err) => {
       console.error(err);
     });
-
 });
 
 // Marks a question as helpful
@@ -379,5 +376,5 @@ app.put('/qa/answers/:answer_id/report', (req, res) => {
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
-  console.log('Listening on port: ', PORT);
+  console.log('Listening on port: ' + PORT);
 });
