@@ -1,4 +1,6 @@
 const router = require('express').Router();
+const db = require('../../database/index.js');
+const utils = require('../utils.js');
 
 // Gets questions for a given product (also has answers and answer photos embedded)
 router.get('/', (req, res) => {
@@ -6,7 +8,7 @@ router.get('/', (req, res) => {
     const product_id = req.query.product_id;
     const count = req.query.count;
     // Get all the questions for the given product and formats it how the client needs it before sending to client.
-    db.getQuestionsForProduct(product_id, page, count)
+    db.getQuestionsForProduct(product_id, count)
       .then((productQuestions) => {
         let reformattedproductQuestions = utils.formatObject(productQuestions[0], count);
         res.status(200);
