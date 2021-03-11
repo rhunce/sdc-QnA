@@ -8,7 +8,8 @@
     "build-prod": "webpack --mode production",
     "build-dev": "webpack -w --mode development",
     "start": "nodemon server/index.js",
-    "start2": "nodemon backend/server.js"
+    "start2": "nodemon backend/server.js",
+    "start3": "nodemon new-backend/server"
   },
   "keywords": [],
   "author": "Claire Sujin Kim",
